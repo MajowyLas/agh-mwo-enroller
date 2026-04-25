@@ -114,14 +114,18 @@ public class MeetingsRestController {
 
     @RequestMapping(value = "/{id}/participants/{login}", method = RequestMethod.DELETE)
     public ResponseEntity<?> removeParticipantFromMeeting(@PathVariable("id") long id, @PathVariable("login") String login) {
-        Meeting meeting = meetingService.findById(id);
+        Meeting foundMeeting = meetingService.findById(id);
         Participant participant = participantService.findByLogin(login);
 
-        if (meeting == null || participant == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (foundMeeting == null) {
+            return new ResponseEntity<>("Meeting doesn't exist", HttpStatus.NOT_FOUND);
         }
-         meeting.getParticipants().remove(participant);
-         meetingService.update(meeting);
+        if (participant == null) {
+            return new ResponseEntity<>("Participant doesn't exist", HttpStatus.NOT_FOUND);
+        }
+
+         foundMeeting.getParticipants().remove(participant);
+         meetingService.update(foundMeeting);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
