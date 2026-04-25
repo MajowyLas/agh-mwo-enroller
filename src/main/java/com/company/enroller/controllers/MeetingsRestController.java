@@ -53,7 +53,7 @@ public class MeetingsRestController {
         Meeting foundMeeting = meetingService.findById(id);
 
         if (foundMeeting == null) {
-            return new ResponseEntity<>("Unable to delete. Meetning doesn't exist", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Unable to delete. Meeting doesn't exist", HttpStatus.NOT_FOUND);
         }
         meetingService.delete(foundMeeting);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
